@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0E2A3D">
+<title>Desafio · Interface Humano × Sistema</title>
+<style>
+:root{
+  --navy:#0E2A3D; --navy2:#173A50; --orange:#E8631A; --amber:#F2A100;
+  --cream:#FBF8F3; --paper:#fff; --ink:#22282C; --muted:#65717A;
+  --line:#E4DED2; --green:#2E7D5B; --red:#B94232;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--cream); color:var(--ink);
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  min-height:100vh; display:flex; justify-content:center;
+}
+button{font:inherit}
+.app{width:100%;max-width:760px;padding:18px 14px 34px}
+.top{
+  display:flex;justify-content:space-between;align-items:center;gap:12px;
+  margin:0 2px 12px;
+}
+.brand{font-size:12px;color:var(--muted);font-weight:700;letter-spacing:.02em}
+.brand b{color:var(--orange)}
+.progress{flex:0 0 150px;height:7px;background:var(--line);border-radius:99px;overflow:hidden}
+.progress i{display:block;height:100%;width:10%;background:var(--orange);transition:width .3s}
+.stage{
+  background:var(--paper);border:1px solid var(--line);border-radius:18px;
+  overflow:hidden;min-height:620px;box-shadow:0 8px 30px rgba(14,42,61,.05)
+}
+.screen{display:none;padding:34px 28px 30px;animation:in .22s ease}
+.screen.active{display:block}
+@keyframes in{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
+.kicker{font-size:12px;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);font-weight:800;margin-bottom:9px}
+h1{font-size:31px;line-height:1.12;color:var(--navy);margin:0 0 14px;letter-spacing:-.03em}
+h2{font-size:20px;color:var(--navy);margin:0 0 9px}
+.lead{font-size:15px;line-height:1.6;color:var(--muted);margin:0 0 22px;max-width:60ch}
+.hero{
+  background:var(--navy);color:#fff;border-radius:14px;padding:25px;margin:18px 0 22px
+}
+.hero h2{color:#fff;font-size:23px}
+.hero p{margin:0;color:#D7E1E7;font-size:14px;line-height:1.55}
+.btn{
+  border:0;border-radius:10px;padding:12px 17px;font-weight:800;font-size:14px;
+  cursor:pointer;transition:.15s;min-height:44px
+}
+.btn.primary{background:var(--navy);color:#fff}
+.btn.primary:hover{background:var(--orange)}
+.btn.orange{background:var(--orange);color:#fff}
+.btn.ghost{background:#fff;border:1px solid var(--line);color:var(--navy)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.nav{
+  display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding:0 2px
+}
+.nav .page{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.choice{
+  width:100%;text-align:left;background:#fff;border:1px solid var(--line);
+  border-radius:12px;padding:15px;cursor:pointer;min-height:80px;transition:.15s
+}
+.choice:hover{border-color:var(--orange)}
+.choice.selected{border:2px solid var(--orange);background:rgba(232,99,26,.055)}
+.choice.correct{border-color:var(--green);background:rgba(46,125,91,.08)}
+.choice.wrong{border-color:var(--red);background:rgba(185,66,50,.07)}
+.choice b{display:block;color:var(--navy);font-size:14px;margin-bottom:4px}
+.choice span{font-size:12.5px;color:var(--muted);line-height:1.45}
+.feedback{
+  display:none;margin-top:15px;padding:14px 16px;border-radius:10px;
+  font-size:13.5px;line-height:1.5
+}
+.feedback.show{display:block}
+.feedback.good{background:rgba(46,125,91,.09);border-left:3px solid var(--green)}
+.feedback.warn{background:rgba(185,66,50,.08);border-left:3px solid var(--red)}
+.scenario{
+  border:1px solid var(--line);border-radius:13px;padding:17px;background:#FCFBF8;margin-bottom:15px
+}
+.scenario .tag{
+  display:inline-block;font-size:10px;font-weight:800;text-transform:uppercase;
+  color:var(--orange);background:rgba(232,99,26,.09);padding:5px 7px;border-radius:5px;margin-bottom:9px
+}
+.issue{display:flex;gap:11px;padding:12px 0;border-bottom:1px solid var(--line);cursor:pointer}
+.issue:last-child{border-bottom:0}
+.issue .pin{
+  width:24px;height:24px;border:2px solid var(--line);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex:none;color:transparent;font-size:12px;font-weight:900
+}
+.issue.hit .pin{border-color:var(--orange);background:var(--orange);color:#fff}
+.issue b{display:block;color:var(--navy);font-size:13.5px}
+.issue span{font-size:12px;color:var(--muted)}
+.note{font-size:12px;color:var(--muted);margin-top:10px}
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:17px 0}
+.col{border:1px solid var(--line);border-radius:12px;padding:15px}
+.col h3{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--orange);margin:0 0 10px}
+.col p{font-size:13px;line-height:1.5;margin:0;color:var(--ink)}
+.drop{
+  border:2px dashed var(--line);border-radius:12px;padding:15px;text-align:center;
+  color:var(--muted);font-size:13px;margin-top:12px
+}
+.drop.active{border-color:var(--orange);background:rgba(232,99,26,.05)}
+.choice-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+.big-choice{
+  flex:1;min-width:130px;border:1px solid var(--line);border-radius:12px;padding:17px;
+  background:#fff;text-align:center;cursor:pointer;font-weight:800;color:var(--navy)
+}
+.big-choice:hover{border-color:var(--orange)}
+.big-choice b{display:block;font-size:20px;margin-bottom:4px}
+.big-choice span{font-size:11.5px;color:var(--muted);font-weight:500}
+.big-choice.selected{border:2px solid var(--orange)}
+.signal{
+  display:flex;align-items:flex-start;gap:12px;border:1px solid var(--line);
+  border-radius:11px;padding:13px;margin-bottom:9px
+}
+.signal .lamp{width:12px;height:12px;border-radius:50%;background:var(--orange);margin-top:4px;flex:none}
+.signal.critical{border-color:var(--red);background:rgba(185,66,50,.05)}
+.signal.critical .lamp{background:var(--red)}
+.signal b{font-size:13px;color:var(--navy);display:block}
+.signal span{font-size:11.5px;color:var(--muted)}
+.panel{
+  background:var(--navy);border-radius:13px;padding:17px;color:#fff;margin-bottom:14px
+}
+.panel .display{font-size:24px;font-weight:900;letter-spacing:.03em}
+.panel small{color:#C9D6DE;font-size:11px}
+.score{
+  text-align:center;background:var(--navy);color:#fff;border-radius:14px;padding:24px;margin:15px 0
+}
+.score strong{display:block;font-size:42px;color:var(--amber);line-height:1}
+.score span{font-size:12px;color:#D7E1E7}
+.result-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:15px 0}
+.result{border:1px solid var(--line);border-radius:10px;padding:13px;text-align:center}
+.result strong{display:block;font-size:22px;color:var(--orange)}
+.result small{color:var(--muted);font-size:10.5px}
+.commit-list{display:grid;gap:9px}
+.commit{border:1px solid var(--line);border-radius:10px;padding:13px;text-align:left;background:#fff;cursor:pointer}
+.commit.selected{border:2px solid var(--orange);background:rgba(232,99,26,.05)}
+.commit b{display:block;color:var(--navy);font-size:13px}
+.commit span{font-size:11.5px;color:var(--muted)}
+.meter{height:8px;background:var(--line);border-radius:99px;overflow:hidden;margin:15px 0 6px}
+.meter i{display:block;width:0;height:100%;background:var(--orange);transition:.3s}
+.final{
+  background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;border-radius:14px;
+  padding:24px;text-align:center;margin-bottom:17px
+}
+.final h2{color:#fff}
+.final p{font-size:13px;line-height:1.55;color:#D7E1E7;margin:0}
+.tiny{font-size:11px;color:var(--muted);line-height:1.45}
+@media(max-width:560px){
+  .app{padding:10px 9px 24px}
+  .stage{min-height:650px;border-radius:15px}
+  .screen{padding:27px 20px 24px}
+  h1{font-size:27px}
+  .grid,.compare{grid-template-columns:1fr}
+  .progress{flex-basis:100px}
+  .result-grid{grid-template-columns:1fr 1fr 1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="brand">Campanha Fatores Humanos · <b>Interface Humano × Sistema</b></div>
+    <div class="progress"><i id="progressBar"></i></div>
+  </div>
+
+  <main class="stage">
+
+    <!-- 1 -->
+    <section class="screen active" data-screen="1">
+      <div class="kicker">01 · Comece o desafio</div>
+      <h1>Você está no controle?</h1>
+      <p class="lead">Um sistema seguro não depende de atenção extraordinária o tempo todo. Ele deve tornar o trabalho seguro a escolha mais simples, intuitiva e confiável.</p>
+      <div class="hero">
+        <h2>Seu desafio</h2>
+        <p>Em 9 telas, você vai identificar armadilhas de interface, reconhecer sinais de adaptação e tomar decisões diante de situações reais de operação.</p>
+      </div>
+      <p class="tiny">A experiência é baseada nos princípios da campanha: pessoas, sistemas e ambiente formam o desempenho operacional.</p>
+      <div style="margin-top:22px"><button class="btn orange" onclick="next()">Começar →</button></div>
+    </section>
+
+    <!-- 2 -->
+    <section class="screen" data-screen="2">
+      <div class="kicker">02 · Encontre a armadilha</div>
+      <h1>O que pode induzir ao erro?</h1>
+      <p class="lead">Imagine que você chegou ao equipamento. Toque nos pontos que podem aumentar a chance de uma interação errada.</p>
+      <div class="scenario">
+        <span class="tag">Situação de campo</span>
+        <h2>Painel de controle</h2>
+        <div class="issue" onclick="toggleIssue(this)">
+          <div class="pin">✓</div><div><b>Dois comandos visualmente semelhantes</b><span>Podem favorecer acionamento incorreto.</span></div>
+        </div>
+        <div class="issue" onclick="toggleIssue(this)">
+          <div class="pin">✓</div><div><b>Etiqueta pequena e difícil de ler</b><span>Identificação pouco clara aumenta a dúvida.</span></div>
+        </div>
+        <div class="issue" onclick="toggleIssue(this)">
+          <div class="pin">✓</div><div><b>Comando acessível mesmo com EPI</b><span>Uma característica positiva: facilita a operação.</span></div>
+        </div>
+        <div class="issue" onclick="toggleIssue(this)">
+          <div class="pin">✓</div><div><b>Informação crítica destacada</b><span>Priorizar o que importa reduz sobrecarga.</span></div>
+        </div>
+      </div>
+      <div id="f2" class="feedback"></div>
+      <p class="note">Dica: nem tudo que chama atenção é um problema. Procure o que pode criar uma armadilha operacional.</p>
+    </section>
+
+    <!-- 3 -->
+    <section class="screen" data-screen="3">
+      <div class="kicker">03 · Decida</div>
+      <h1>O que você faria?</h1>
+      <p class="lead">O comando necessário está ao lado de outro muito parecido. A etiqueta está parcialmente ilegível.</p>
+      <div class="scenario">
+        <b style="color:var(--navy)">Qual é a melhor resposta?</b>
+        <div class="grid" style="margin-top:13px">
+          <button class="choice" onclick="answer3(this,false)"><b>“Vou prestar mais atenção.”</b><span>Seguir usando o sistema como está.</span></button>
+          <button class="choice" onclick="answer3(this,false)"><b>“Vou improvisar uma identificação.”</b><span>Criar uma solução local para continuar.</span></button>
+          <button class="choice" onclick="answer3(this,true)"><b>“Vou tornar o risco visível e buscar correção.”</b><span>Evitar a armadilha e tratar a causa.</span></button>
+          <button class="choice" onclick="answer3(this,false)"><b>“Isso é responsabilidade do operador.”</b><span>Apenas reforçar a atenção individual.</span></button>
+        </div>
+      </div>
+      <div id="f3" class="feedback"></div>
+    </section>
+
+    <!-- 4 -->
+    <section class="screen" data-screen="4">
+      <div class="kicker">04 · Papel × Campo</div>
+      <h1>O procedimento bate com a realidade?</h1>
+      <p class="lead">Um procedimento só é eficaz quando é aplicável. Compare as duas situações.</p>
+      <div class="compare">
+        <div class="col"><h3>No papel</h3><p>“Acionar o comando identificado como X e executar a sequência prevista.”</p></div>
+        <div class="col"><h3>No campo</h3><p>“Comandos semelhantes, etiqueta pouco legível e acesso dificultado pelo uso de EPI.”</p></div>
+      </div>
+      <p style="font-size:13px;color:var(--navy);font-weight:800">Existe um desvio entre procedimento e prática?</p>
+      <div class="choice-row">
+        <button class="big-choice" onclick="answer4(this,true)"><b>SIM</b><span>O cenário real não está adequadamente representado.</span></button>
+        <button class="big-choice" onclick="answer4(this,false)"><b>NÃO</b><span>O procedimento continua adequado ao cenário.</span></button>
+      </div>
+      <div id="f4" class="feedback"></div>
+    </section>
+
+    <!-- 5 -->
+    <section class="screen" data-screen="5">
+      <div class="kicker">05 · O “jeitinho”</div>
+      <h1>Adaptação é sempre um problema?</h1>
+      <p class="lead">Uma adaptação improvisada não deve ser tratada automaticamente como má vontade. Ela pode revelar uma condição do sistema.</p>
+      <div class="scenario">
+        <span class="tag">Exemplo</span>
+        <h2>“A equipe encontrou outro jeito de executar.”</h2>
+        <p style="font-size:13px;line-height:1.55;color:var(--muted)">A ferramenta prevista não estava disponível e a atividade precisou ser adaptada.</p>
+      </div>
+      <p style="font-size:13px;color:var(--navy);font-weight:800">Qual pergunta é mais útil?</p>
+      <div class="grid">
+        <button class="choice" onclick="answer5(this,false)"><b>“Quem fez isso?”</b><span>Focar primeiro no comportamento.</span></button>
+        <button class="choice" onclick="answer5(this,true)"><b>“Por que isso foi necessário?”</b><span>Investigar a condição que favoreceu a adaptação.</span></button>
+        <button class="choice" onclick="answer5(this,false)"><b>“Como impedir qualquer adaptação?”</b><span>Atuar somente sobre o resultado.</span></button>
+        <button class="choice" onclick="answer5(this,false)"><b>“Podemos deixar assim.”</b><span>Normalizar a adaptação sem entender sua causa.</span></button>
+      </div>
+      <div id="f5" class="feedback"></div>
+    </section>
+
+    <!-- 6 -->
+    <section class="screen" data-screen="6">
+      <div class="kicker">06 · Pare ou continue?</div>
+      <h1>Reconheça o gatilho.</h1>
+      <p class="lead">Toque em <b>PARAR</b> quando a situação indicar que continuar pode significar aceitar um risco não controlado.</p>
+      <div id="signals"></div>
+      <div id="f6" class="feedback"></div>
+    </section>
+
+    <!-- 7 -->
+    <section class="screen" data-screen="7">
+      <div class="kicker">07 · Alarmes</div>
+      <h1>Informação ou ruído?</h1>
+      <p class="lead">Quando tudo parece urgente, a informação crítica pode se perder. Toque no alarme que merece prioridade.</p>
+      <div class="panel"><div class="display">PAINEL · 14 EVENTOS</div><small>Selecione o evento que deve receber atenção primeiro.</small></div>
+      <div class="signal" onclick="alarm(this,false)"><div class="lamp"></div><div><b>Temperatura 0,3 °C acima da faixa</b><span>Variação pequena e estável.</span></div></div>
+      <div class="signal" onclick="alarm(this,true)"><div class="lamp"></div><div><b>Falha de comunicação com sistema crítico</b><span>A informação necessária para a decisão pode estar indisponível.</span></div></div>
+      <div class="signal" onclick="alarm(this,false)"><div class="lamp"></div><div><b>Registro de manutenção concluído</b><span>Informação operacional de rotina.</span></div></div>
+      <div class="signal" onclick="alarm(this,false)"><div class="lamp"></div><div><b>Pressão dentro da faixa</b><span>Indicação normal.</span></div></div>
+      <div id="f7" class="feedback"></div>
+    </section>
+
+    <!-- 8 -->
+    <section class="screen" data-screen="8">
+      <div class="kicker">08 · Teste do operador</div>
+      <h1>Faça o teste rápido da interface.</h1>
+      <p class="lead">Imagine que você precisa usar o equipamento com EPI e em um espaço restrito. Marque o que você verificaria.</p>
+      <div id="checks8">
+        <button class="choice" onclick="check8(this)"><b>Identificação clara</b><span>O equipamento e seus comandos são facilmente reconhecidos.</span></button>
+        <button class="choice" onclick="check8(this)"><b>Acesso e ergonomia</b><span>Os comandos podem ser operados com os EPIs e no espaço disponível.</span></button>
+        <button class="choice" onclick="check8(this)"><b>Informação priorizada</b><span>As informações críticas estão destacadas sem sobrecarga.</span></button>
+        <button class="choice" onclick="check8(this)"><b>Condição do ambiente</b><span>Iluminação e condições do local permitem interação segura.</span></button>
+      </div>
+      <div class="meter"><i id="meter8"></i></div>
+      <p id="label8" class="tiny">0 de 4 verificações marcadas</p>
+    </section>
+
+    <!-- 9 -->
+    <section class="screen" data-screen="9">
+      <div class="kicker">09 · Ação robusta</div>
+      <h1>O problema está só na pessoa?</h1>
+      <p class="lead">O desempenho operacional é sistêmico: resulta da interação entre pessoas, sistemas e ambiente.</p>
+      <div class="grid">
+        <div class="choice selected" style="cursor:default"><b>PESSOAS</b><span>Competência, decisão, comunicação e percepção.</span></div>
+        <div class="choice selected" style="cursor:default"><b>SISTEMA</b><span>Equipamentos, comandos, procedimentos e alarmes.</span></div>
+        <div class="choice selected" style="cursor:default"><b>AMBIENTE</b><span>Acesso, iluminação, espaço e condições reais.</span></div>
+        <div class="choice selected" style="cursor:default"><b>LIDERANÇA</b><span>Escuta, presença no campo e coerência das decisões.</span></div>
+      </div>
+      <div class="scenario" style="margin-top:16px">
+        <b style="color:var(--navy)">Ação mais robusta:</b>
+        <p style="font-size:13px;color:var(--muted);line-height:1.5;margin:7px 0 0">compreender a dificuldade, identificar por que ela apareceu e modificar as condições que favoreceram o desvio.</p>
+      </div>
+      <button class="btn primary" onclick="next()">Ver meu resultado →</button>
+    </section>
+
+    <!-- 10 -->
+    <section class="screen" data-screen="10">
+      <div class="kicker">10 · Meu compromisso</div>
+      <h1>Leve uma ação para o campo.</h1>
+      <p class="lead">Escolha pelo menos uma atitude que você pode praticar a partir de agora.</p>
+      <div class="commit-list" id="commitList">
+        <button class="commit" onclick="commit(this)"><b>Comparar um procedimento com a prática real</b><span>Verificar se o que está escrito representa o trabalho de fato.</span></button>
+        <button class="commit" onclick="commit(this)"><b>Registrar uma dificuldade ou desvio</b><span>Transformar a dificuldade em oportunidade de aprendizado.</span></button>
+        <button class="commit" onclick="commit(this)"><b>Questionar uma adaptação</b><span>Perguntar por que ela foi necessária antes de simplesmente proibi-la.</span></button>
+        <button class="commit" onclick="commit(this)"><b>Apoiar uma parada segura</b><span>Valorizar o direito de interromper quando houver dúvida ou risco não controlado.</span></button>
+      </div>
+      <div class="meter"><i id="meter10"></i></div>
+      <p id="label10" class="tiny">0 compromisso selecionado</p>
+      <div id="finalBox" style="display:none;margin-top:15px">
+        <div class="final">
+          <h2>Segurança é construída pelo conjunto.</h2>
+          <p>Observe a interação entre pessoas, sistema e ambiente. Quando algo exige “dar um jeito”, pare e procure entender o que o sistema está dizendo.</p>
+        </div>
+        <button class="btn orange" onclick="restart()">Refazer desafio ↻</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="nav">
+    <button id="prev" class="btn ghost" onclick="prev()">← Anterior</button>
+    <span class="page" id="pageLabel">1 / 10</span>
+    <button id="next" class="btn primary" onclick="next()">Próxima →</button>
+  </footer>
+</div>
+
+<script>
+let current=1;
+const total=10;
+const answers={2:0,3:false,4:false,5:false,6:0,7:false,8:0,10:0};
+const screens=[...document.querySelectorAll('.screen')];
+
+function render(){
+  screens.forEach(s=>s.classList.toggle('active',+s.dataset.screen===current));
+  document.getElementById('pageLabel').textContent=current+' / '+total;
+  document.getElementById('progressBar').style.width=(current/total*100)+'%';
+  document.getElementById('prev').disabled=current===1;
+  document.getElementById('next').style.display=current===10?'none':'inline-flex';
+  if(current===6) buildSignals();
+  if(current===10) updateFinal();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function next(){if(current<total){current++;render()}}
+function prev(){if(current>1){current--;render()}}
+function toggleIssue(el){
+  el.classList.toggle('hit');
+  const hits=document.querySelectorAll('#'+CSS.escape('x')).length;
+  const chosen=document.querySelectorAll('.issue.hit').length;
+  const good=document.querySelectorAll('.issue.hit').length;
+  const f=document.getElementById('f2');
+  if(chosen>=2){
+    f.className='feedback show good';
+    f.innerHTML='<b>Boa leitura.</b> Comandos semelhantes e identificação pouco clara podem criar armadilhas operacionais. Acesso adequado e informação crítica priorizada são características positivas.';
+  }
+}
+function answer3(el,correct){
+  document.querySelectorAll('[data-screen="3"] .choice').forEach(x=>x.classList.remove('selected','correct','wrong'));
+  el.classList.add('selected',correct?'correct':'wrong');
+  const f=document.getElementById('f3');
+  f.className='feedback show '+(correct?'good':'warn');
+  f.innerHTML=correct
+    ?'<b>Boa decisão.</b> O objetivo não é depender permanentemente de atenção extra. Uma interface que induz ao erro deve ser compreendida e melhorada.'
+    :'<b>Reflita.</b> Atenção individual pode ajudar no momento, mas não corrige a condição que favorece o erro.';
+  answers[3]=correct;
+}
+function answer4(el,correct){
+  document.querySelectorAll('[data-screen="4"] .big-choice').forEach(x=>x.classList.remove('selected'));
+  el.classList.add('selected');
+  const f=document.getElementById('f4');
+  f.className='feedback show '+(correct?'good':'warn');
+  f.innerHTML=correct
+    ?'<b>Sim.</b> O procedimento não representa integralmente o cenário real. Isso é um sinal para revisar as condições de execução.'
+    :'<b>Observe novamente.</b> Há diferenças de identificação e acesso que podem afetar a execução segura.';
+  answers[4]=correct;
+}
+function answer5(el,correct){
+  document.querySelectorAll('[data-screen="5"] .choice').forEach(x=>x.classList.remove('selected','correct','wrong'));
+  el.classList.add('selected',correct?'correct':'wrong');
+  const f=document.getElementById('f5');
+  f.className='feedback show '+(correct?'good':'warn');
+  f.innerHTML=correct
+    ?'<b>Exatamente.</b> A adaptação pode apontar para ferramenta inadequada, planejamento, procedimento incompatível, dificuldade de acesso ou necessidade de mudança.'
+    :'<b>Olhe para a causa.</b> A resposta robusta é compreender por que a adaptação foi necessária e modificar as condições que a favoreceram.';
+  answers[5]=correct;
+}
+function buildSignals(){
+  if(document.getElementById('signals').children.length)return;
+  const data=[
+    ['O procedimento não corresponde ao cenário encontrado.',true],
+    ['Existe dúvida sobre a sequência ou a segurança da tarefa.',true],
+    ['A ferramenta ou recurso previsto está indisponível.',true],
+    ['Tudo está conforme planejado e os controles estão disponíveis.',false],
+  ];
+  const box=document.getElementById('signals');
+  data.forEach((d,i)=>{
+    const el=document.createElement('div');el.className='signal';el.style.cursor='pointer';
+    el.innerHTML='<div class="lamp"></div><div><b>'+d[0]+'</b><span>Toque para decidir: parar ou continuar.</span></div>';
+    el.onclick=()=>signalAnswer(el,d[1]);
+    box.appendChild(el);
+  });
+}
+function signalAnswer(el,shouldStop){
+  if(el.dataset.done)return;
+  el.dataset.done='1';
+  answers[6]++;
+  const f=document.getElementById('f6');
+  f.className='feedback show '+(shouldStop?'good':'warn');
+  f.innerHTML=shouldStop
+    ?'<b>PARAR.</b> Quando o cenário muda, há dúvida ou falta recurso crítico, continuar pode significar aceitar um risco não controlado.'
+    :'<b>CONTINUAR, com os controles previstos.</b> Nem toda situação exige interrupção. A decisão depende das condições reais e dos controles disponíveis.';
+}
+function alarm(el,correct){
+  document.querySelectorAll('[data-screen="7"] .signal').forEach(x=>x.classList.remove('critical'));
+  el.classList.add('critical');
+  const f=document.getElementById('f7');
+  f.className='feedback show '+(correct?'good':'warn');
+  f.innerHTML=correct
+    ?'<b>Prioridade correta.</b> Falha de comunicação com um sistema crítico pode retirar informação necessária para a tomada de decisão.'
+    :'<b>Reavalie a prioridade.</b> O princípio é destacar e priorizar a informação crítica para evitar sobrecarga e facilitar a decisão.';
+  answers[7]=correct;
+}
+function check8(el){
+  el.classList.toggle('selected');
+  answers[8]=document.querySelectorAll('#checks8 .choice.selected').length;
+  document.getElementById('meter8').style.width=(answers[8]/4*100)+'%';
+  document.getElementById('label8').textContent=answers[8]+' de 4 verificações marcadas';
+}
+function commit(el){
+  el.classList.toggle('selected');
+  answers[10]=document.querySelectorAll('.commit.selected').length;
+  document.getElementById('meter10').style.width=Math.min(100,answers[10]/4*100)+'%';
+  document.getElementById('label10').textContent=answers[10]+' compromisso'+(answers[10]===1?'':'s')+' selecionado'+(answers[10]===1?'':'s');
+  updateFinal();
+}
+function updateFinal(){
+  const box=document.getElementById('finalBox');
+  box.style.display=answers[10]>0?'block':'none';
+}
+function restart(){
+  current=1;
+  document.querySelectorAll('.issue.hit,.choice.selected,.choice.correct,.choice.wrong,.big-choice.selected,.commit.selected').forEach(x=>x.classList.remove('hit','selected','correct','wrong'));
+  document.querySelectorAll('.feedback').forEach(x=>{x.className='feedback';x.innerHTML=''});
+  document.getElementById('signals').innerHTML='';
+  document.getElementById('meter8').style.width='0%';
+  document.getElementById('meter10').style.width='0%';
+  document.getElementById('label8').textContent='0 de 4 verificações marcadas';
+  document.getElementById('label10').textContent='0 compromissos selecionados';
+  Object.assign(answers,{2:0,3:false,4:false,5:false,6:0,7:false,8:0,10:0});
+  render();
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')next();
+  if(e.key==='ArrowLeft')prev();
+});
+render();
+</script>
+</body>
+</html>

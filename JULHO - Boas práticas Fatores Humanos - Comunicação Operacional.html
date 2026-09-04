@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#102C3D">
+<title>Julho · Comunicação Operacional · Missão Linha Clara</title>
+<style>
+:root{--ink:#173542;--ink2:#2C5666;--orange:#E66B25;--gold:#E3A63A;--cream:#F4F1E9;--paper:#FFFDF8;--muted:#68777E;--line:#DDD9CE;--green:#37765D;--red:#B84B3C;--blue:#467A8E}
+*{box-sizing:border-box}html,body{margin:0;padding:0}body{background:var(--cream);color:#26343A;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;min-height:100vh;display:flex;justify-content:center}button{font:inherit}.app{width:100%;max-width:800px;padding:14px 13px 30px}.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.brand{font-size:12px;font-weight:900;color:var(--ink);letter-spacing:.04em}.brand span{color:var(--orange)}.count{font-size:11px;color:var(--muted);font-weight:800}.bar{height:5px;background:var(--line);border-radius:20px;overflow:hidden;margin-bottom:13px}.bar i{display:block;height:100%;width:7%;background:var(--orange);transition:.3s}.frame{background:var(--paper);border:1px solid var(--line);border-radius:20px;min-height:670px;overflow:hidden;box-shadow:0 10px 34px rgba(23,53,66,.07)}.screen{display:none;padding:31px 29px 29px;animation:enter .22s ease}.screen.active{display:block}@keyframes enter{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);font-weight:900;margin-bottom:9px}h1{font-size:30px;line-height:1.1;letter-spacing:-.035em;color:var(--ink);margin:0 0 13px}h2{font-size:20px;color:var(--ink);margin:0 0 8px}.lead{font-size:14.5px;line-height:1.55;color:var(--muted);margin:0 0 20px}.hero{background:var(--ink);color:#fff;border-radius:15px;padding:24px;margin:19px 0}.hero h2{color:#fff;font-size:24px}.hero p{color:#D7E2E6;font-size:13.5px;line-height:1.55;margin:0}.btn{min-height:44px;border-radius:10px;border:1px solid transparent;padding:11px 16px;font-weight:900;font-size:13.5px;cursor:pointer}.primary{background:var(--ink);color:#fff}.orange{background:var(--orange);color:#fff}.light{background:#fff;color:var(--ink);border-color:var(--line)}.nav{display:flex;justify-content:space-between;align-items:center;margin-top:12px}.nav .btn{min-width:105px}.nav .btn:disabled{opacity:.35}.mini{font-size:11px;color:var(--muted)}.radio-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.radio{border:1px solid var(--line);background:#fff;border-radius:12px;padding:15px;text-align:left;cursor:pointer;min-height:88px}.radio:hover{border-color:var(--orange)}.radio.sel{border:2px solid var(--orange);background:rgba(230,107,37,.055)}.radio.good{border-color:var(--green);background:rgba(55,118,93,.07)}.radio.bad{border-color:var(--red);background:rgba(184,75,60,.06)}.radio b{display:block;color:var(--ink);font-size:13.2px;margin-bottom:4px}.radio span{font-size:11.5px;color:var(--muted);line-height:1.4}.radio em{display:block;font-style:normal;color:var(--orange);font-size:10px;font-weight:900;text-transform:uppercase;margin-bottom:5px}.feedback{display:none;margin-top:13px;padding:13px 15px;border-radius:10px;font-size:12.7px;line-height:1.5}.feedback.show{display:block}.goodbox{background:rgba(55,118,93,.09);border-left:3px solid var(--green)}.warnbox{background:rgba(184,75,60,.08);border-left:3px solid var(--red)}.radio-line{display:flex;gap:9px;align-items:center;border:1px solid var(--line);border-radius:10px;padding:12px;margin:8px 0;cursor:pointer}.radio-line.on{border-color:var(--orange);background:rgba(230,107,37,.05)}.radio-line .bubble{width:20px;height:20px;border-radius:50%;border:2px solid var(--line);flex:none}.radio-line.on .bubble{border-color:var(--orange);box-shadow:inset 0 0 0 5px var(--orange)}.radio-line b{font-size:12.5px;color:var(--ink)}.radio-line span{font-size:11px;color:var(--muted);display:block}.message{border:1px solid var(--line);border-radius:14px;background:#FAF9F4;padding:17px;margin:15px 0}.msg-top{display:flex;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:12px}.msg-top b{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--orange)}.msg-top span{font-size:10px;color:var(--muted)}.msg{font-family:Georgia,serif;font-size:16px;line-height:1.55;color:#27373D}.mark{background:rgba(227,166,58,.24);padding:1px 3px;border-radius:3px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin:16px 0}.node{border:1px solid var(--line);border-radius:12px;padding:14px;background:white;text-align:center}.node .num{width:28px;height:28px;margin:0 auto 8px;border-radius:50%;background:var(--ink);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900}.node b{font-size:12px;color:var(--ink);display:block}.node span{font-size:10.5px;color:var(--muted);line-height:1.35}.channel{background:var(--ink);color:#fff;border-radius:13px;padding:17px;margin:15px 0}.channel small{color:#C8D7DD;font-size:10px;text-transform:uppercase;letter-spacing:.08em}.channel .bubblemsg{background:#fff;color:var(--ink);border-radius:10px;padding:12px;margin-top:9px;font-size:13px;line-height:1.45}.channel .bubblemsg.right{margin-left:28px;background:#EEF3F4}.challenge{border:1px solid var(--line);border-radius:13px;padding:16px;margin-top:15px}.challenge h3{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);margin:0 0 10px}.phrase{border:1px solid var(--line);border-radius:9px;padding:11px;margin:7px 0;cursor:pointer;font-size:12.5px}.phrase:hover{border-color:var(--orange)}.phrase.good{border-color:var(--green);background:rgba(55,118,93,.07)}.phrase.bad{border-color:var(--red);background:rgba(184,75,60,.06)}.signal{display:flex;gap:10px;border:1px solid var(--line);border-radius:11px;padding:13px;margin:9px 0;cursor:pointer}.lamp{width:11px;height:11px;border-radius:50%;background:var(--orange);margin-top:4px;flex:none}.signal b{display:block;color:var(--ink);font-size:12.5px}.signal span{display:block;color:var(--muted);font-size:11px;margin-top:3px}.signal.hit{border-color:var(--red);background:rgba(184,75,60,.06)}.signal.hit .lamp{background:var(--red)}.handover{border-left:3px solid var(--orange);background:#FAF8F1;padding:15px;margin:16px 0;border-radius:0 11px 11px 0}.handover b{font-size:12px;color:var(--ink)}.handover p{font-size:12px;color:var(--muted);margin:6px 0 0}.check{display:flex;gap:10px;border:1px solid var(--line);border-radius:11px;padding:12px;margin:8px 0;cursor:pointer}.check .box{width:21px;height:21px;border:2px solid var(--line);border-radius:5px;flex:none}.check.on .box{background:var(--orange);border-color:var(--orange);position:relative}.check.on .box:after{content:"✓";color:#fff;font-weight:900;position:absolute;left:3px;top:-1px;font-size:13px}.check b{font-size:12px;color:var(--ink);display:block}.check span{font-size:10.8px;color:var(--muted)}.roles{display:grid;grid-template-columns:1fr 1fr;gap:9px}.role{border:1px solid var(--line);background:white;border-radius:11px;padding:13px;text-align:left;cursor:pointer}.role.sel{border:2px solid var(--orange);background:rgba(230,107,37,.05)}.role b{font-size:12px;color:var(--ink);display:block}.role span{font-size:10.8px;color:var(--muted)}.meter{height:7px;background:var(--line);border-radius:99px;overflow:hidden;margin:14px 0 6px}.meter i{display:block;width:0;height:100%;background:var(--orange);transition:.3s}.final{background:var(--ink);color:white;border-radius:15px;padding:22px;text-align:center;margin-top:17px}.final h2{color:#fff}.final p{font-size:12px;color:#D5E0E4;margin:6px 0 0;line-height:1.5}@media(max-width:570px){.app{padding:9px 8px 22px}.frame{min-height:700px;border-radius:16px}.screen{padding:26px 19px 23px}h1{font-size:27px}.radio-grid,.three,.roles{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="header"><div class="brand">FATORES HUMANOS · <span>JULHO</span></div><div class="count" id="count">01 / 14</div></div>
+<div class="bar"><i id="progress"></i></div>
+<main class="frame">
+
+<section class="screen active" data-n="1">
+<div class="eyebrow">Missão · Linha Clara</div>
+<h1>Quando todos compreendem, a vida é protegida.</h1>
+<p class="lead">Uma experiência rápida para praticar comunicação operacional segura: falar com clareza, ouvir, repetir e confirmar.</p>
+<div class="hero"><h2>Você está no canal.</h2><p>Durante a missão, você vai identificar mensagens perigosas, fechar ciclos de comunicação e decidir quando a atividade precisa ser interrompida.</p></div>
+<p class="mini">14 etapas · 4–6 minutos · experiência pensada para celular</p>
+<div style="margin-top:22px"><button class="btn orange" onclick="go(2)">Iniciar missão →</button></div>
+</section>
+
+<section class="screen" data-n="2">
+<div class="eyebrow">01 · Antes de falar</div><h1>Qual mensagem é mais segura?</h1>
+<p class="lead">Em uma operação complexa, cada palavra precisa ter um propósito claro. Escolha a instrução que deixa menos espaço para suposições.</p>
+<div class="radio-grid">
+<button class="radio" onclick="ans(this,true,'f2')"><em>Opção A</em><b>“Fecha aquela válvula lá.”</b><span>Curta, mas depende de contexto e interpretação.</span></button>
+<button class="radio" onclick="ans(this,false,'f2')"><em>Opção B</em><b>“Fechar a válvula de alimentação nº 02 do sistema.”</b><span>Equipamento e referência definidos.</span></button>
+</div><div id="f2" class="feedback"></div>
+</section>
+
+<section class="screen" data-n="3">
+<div class="eyebrow">02 · Precisão</div><h1>Retire as palavras perigosas.</h1>
+<p class="lead">Toque nos termos que podem obrigar o receptor a adivinhar o que você quis dizer.</p>
+<div class="message"><div class="msg-top"><b>Mensagem no rádio</b><span>Canal operacional</span></div><div class="msg">“Leva <span class="mark">isso</span> <span class="mark">lá</span> e faz <span class="mark">depois</span> o que combinamos.”</div></div>
+<div class="radio-line" onclick="mark(this)"><div class="bubble"></div><div><b>“isso”</b><span>Não identifica o objeto.</span></div></div>
+<div class="radio-line" onclick="mark(this)"><div class="bubble"></div><div><b>“lá”</b><span>Não informa a localização precisa.</span></div></div>
+<div class="radio-line" onclick="mark(this)"><div class="bubble"></div><div><b>“depois”</b><span>Não define quando ou qual ação.</span></div></div>
+<div id="f3" class="feedback goodbox"></div>
+</section>
+
+<section class="screen" data-n="4">
+<div class="eyebrow">03 · Mensagem segura</div><h1>Monte a instrução.</h1>
+<p class="lead">Uma mensagem operacional segura deve permitir que o receptor saiba exatamente o que fazer.</p>
+<div class="three"><div class="node"><div class="num">1</div><b>Equipamento</b><span>Qual equipamento?</span></div><div class="node"><div class="num">2</div><b>Localização</b><span>Onde?</span></div><div class="node"><div class="num">3</div><b>Ação</b><span>O que fazer?</span></div></div>
+<div class="challenge"><h3>Escolha a melhor mensagem</h3>
+<div class="phrase" onclick="phrase(this,false)">“Ajusta ali e me avisa.”</div>
+<div class="phrase" onclick="phrase(this,true)">“Ajustar a válvula de alimentação nº 02, no painel B, conforme sequência do procedimento, e confirmar ao concluir.”</div>
+<div class="phrase" onclick="phrase(this,false)">“Faz a etapa seguinte quando der.”</div>
+</div><div id="f4" class="feedback"></div>
+</section>
+
+<section class="screen" data-n="5">
+<div class="eyebrow">04 · Três vias</div><h1>Falar não é o fim da comunicação.</h1>
+<p class="lead">A confirmação transforma uma transmissão em compreensão mútua.</p>
+<div class="channel"><small>Exemplo</small><div class="bubblemsg">EMISSOR: “Fechar a válvula de alimentação nº 02 do sistema.”</div><div class="bubblemsg right">RECEPTOR: “Entendido: fechar a válvula de alimentação nº 02.”</div><div class="bubblemsg">EMISSOR: “Correto. Pode prosseguir com a manobra.”</div></div>
+<div class="three"><div class="node"><div class="num">1</div><b>Emissor</b><span>Transmite.</span></div><div class="node"><div class="num">2</div><b>Receptor</b><span>Repete.</span></div><div class="node"><div class="num">3</div><b>Emissor</b><span>Confirma.</span></div></div>
+</section>
+
+<section class="screen" data-n="6">
+<div class="eyebrow">05 · Pratique</div><h1>Feche o ciclo.</h1>
+<p class="lead">Você é o receptor. Escolha a resposta que demonstra que a informação foi compreendida.</p>
+<div class="message"><div class="msg-top"><b>Emissor</b><span>Canal operacional</span></div><div class="msg">“Transferir a carga para o ponto de recebimento 03 e iniciar a movimentação após a liberação.”</div></div>
+<div class="radio-grid">
+<button class="radio" onclick="ans(this,false,'f6')"><b>“Ok.”</b><span>Confirma apenas a recepção do som.</span></button>
+<button class="radio" onclick="ans(this,true,'f6')"><b>“Entendido: transferir a carga para o ponto 03 e iniciar após a liberação.”</b><span>Repete os elementos críticos.</span></button>
+</div><div id="f6" class="feedback"></div>
+</section>
+
+<section class="screen" data-n="7">
+<div class="eyebrow">06 · A confirmação</div><h1>Você ouviu. Mas entendeu?</h1>
+<p class="lead">Agora você é o emissor. O receptor repetiu uma informação diferente da que você transmitiu.</p>
+<div class="message"><div class="msg-top"><b>Transmissão</b><span>Sequência crítica</span></div><div class="msg">Você disse: “Fechar a válvula nº 02.”<br><br>O receptor respondeu: “Entendido: fechar a válvula nº 03.”</div></div>
+<div class="radio-grid"><button class="radio" onclick="ans(this,true,'f7')"><b>Corrigir e confirmar.</b><span>“Negativo. É a nº 02. Repito: válvula nº 02.”</span></button><button class="radio" onclick="ans(this,false,'f7')"><b>Deixar seguir.</b><span>Presumir que a diferença não fará impacto.</span></button></div><div id="f7" class="feedback"></div>
+</section>
+
+<section class="screen" data-n="8">
+<div class="eyebrow">07 · Ambiente</div><h1>O contexto mudou.</h1>
+<p class="lead">Comunicação segura também depende das condições em que a mensagem é transmitida. Selecione os fatores que podem prejudicar o entendimento.</p>
+<div class="signal" onclick="factor(this)"><div class="lamp"></div><div><b>Ruído excessivo</b><span>O receptor pode não ouvir a mensagem.</span></div></div>
+<div class="signal" onclick="factor(this)"><div class="lamp"></div><div><b>Falha técnica no rádio</b><span>A transmissão pode ficar incompleta ou indisponível.</span></div></div>
+<div class="signal" onclick="factor(this)"><div class="lamp"></div><div><b>Atividades simultâneas (SIMOPS)</b><span>Mensagens e interferências podem se sobrepor.</span></div></div>
+<div class="signal" onclick="factor(this)"><div class="lamp"></div><div><b>Pressão por rapidez</b><span>Pode favorecer mensagens incompletas e decisões apressadas.</span></div></div>
+<div id="f8" class="feedback goodbox"></div>
+</section>
+
+<section class="screen" data-n="9">
+<div class="eyebrow">08 · Sinal de parada</div><h1>Quando comunicar não é suficiente?</h1>
+<p class="lead">Escolha a situação que exige interrupção da atividade.</p>
+<div class="radio-grid">
+<button class="radio" onclick="ans(this,false,'f9')"><b>Mensagem clara e confirmada.</b><span>Todos compartilham a mesma compreensão.</span></button>
+<button class="radio" onclick="ans(this,true,'f9')"><b>Comunicação perdida ou ruído impede o entendimento.</b><span>Sem compreensão, a barreira de comunicação foi comprometida.</span></button>
+</div><div id="f9" class="feedback"></div>
+</section>
+
+<section class="screen" data-n="10">
+<div class="eyebrow">09 · Passagem de serviço</div><h1>O que não foi dito virou risco oculto.</h1>
+<p class="lead">Na troca de turno, selecione o que deve ser formalizado para que a próxima equipe receba o estado real da operação.</p>
+<div id="checks">
+<div class="check" onclick="check(this)"><div class="box"></div><div><b>Estado real da operação</b><span>O que está acontecendo de fato.</span></div></div>
+<div class="check" onclick="check(this)"><div class="box"></div><div><b>Alterações e condições relevantes</b><span>O que mudou desde o planejamento.</span></div></div>
+<div class="check" onclick="check(this)"><div class="box"></div><div><b>Informações críticas para continuidade</b><span>O que a próxima equipe precisa saber.</span></div></div>
+<div class="check" onclick="check(this)"><div class="box"></div><div><b>Apenas o que parece importante</b><span>Evitar critérios subjetivos na passagem.</span></div></div>
+</div><div class="meter"><i id="meter10"></i></div><div id="label10" class="mini">0 itens selecionados</div>
+</section>
+
+<section class="screen" data-n="11">
+<div class="eyebrow">10 · Confiança</div><h1>Uma dúvida também é informação.</h1>
+<p class="lead">Escolha as atitudes que ajudam informações críticas a chegarem a quem pode tratá-las.</p>
+<div class="roles">
+<div class="role" onclick="role(this)"><b>Admitir quando não entendeu.</b><span>Evitar pressupostos.</span></div>
+<div class="role" onclick="role(this)"><b>Solicitar esclarecimento.</b><span>Perguntar sem receio de julgamento.</span></div>
+<div class="role" onclick="role(this)"><b>Alertar sobre mudanças.</b><span>Comunicar novos riscos ou alterações do cenário.</span></div>
+<div class="role" onclick="role(this)"><b>Silenciar para não atrasar.</b><span>Evitar perguntas por pressão de tempo.</span></div>
+</div><div id="f11" class="feedback goodbox">✓ Confiança operacional significa criar espaço para dúvidas, relatos e alertas — sem ridicularização ou julgamento.</div>
+</section>
+
+<section class="screen" data-n="12">
+<div class="eyebrow">11 · Quem está no campo</div><h1>O trabalhador percebe antes.</h1>
+<p class="lead">Selecione os sinais que quem executa pode perceber durante a atividade e que merecem ser compartilhados.</p>
+<div class="radio-grid">
+<button class="radio" onclick="signal(this)"><b>Ruído ou vibração fora do padrão.</b><span>Percepção direta do equipamento.</span></button>
+<button class="radio" onclick="signal(this)"><b>Interferência entre atividades.</b><span>Exposição a SIMOPS e riscos cruzados.</span></button>
+<button class="radio" onclick="signal(this)"><b>Mudança no tempo ou condição de mar.</b><span>O contexto pode mudar durante a tarefa.</span></button>
+<button class="radio" onclick="signal(this)"><b>Falha de coordenação entre turnos.</b><span>Informação que pode não ter sido transferida.</span></button>
+</div><div id="f12" class="feedback goodbox">✓ A experiência de quem executa é uma fonte estratégica de inteligência operacional. O campo pode revelar riscos que o planejamento não capturou.</div>
+</section>
+
+<section class="screen" data-n="13">
+<div class="eyebrow">12 · Antes de iniciar</div><h1>Todos estão na mesma página?</h1>
+<p class="lead">Faça um último teste de prontidão. Marque as condições que precisam estar confirmadas antes de uma atividade crítica.</p>
+<div id="checks13">
+<div class="check" onclick="check13(this)"><div class="box"></div><div><b>Todos compreenderam a atividade.</b><span>A mensagem foi confirmada, não apenas presumida.</span></div></div>
+<div class="check" onclick="check13(this)"><div class="box"></div><div><b>Todos tiveram oportunidade de falar.</b><span>Dúvidas e percepções podem chegar à equipe.</span></div></div>
+<div class="check" onclick="check13(this)"><div class="box"></div><div><b>Equipes simultâneas conhecem as interferências.</b><span>Riscos cruzados foram compartilhados.</span></div></div>
+<div class="check" onclick="check13(this)"><div class="box"></div><div><b>Ruído, rádio e linguagem permitem entendimento.</b><span>As condições de comunicação estão adequadas.</span></div></div>
+<div class="check" onclick="check13(this)"><div class="box"></div><div><b>A passagem de serviço registra o estado real.</b><span>A próxima equipe recebe contexto suficiente.</span></div></div>
+</div><div class="meter"><i id="meter13"></i></div><div id="label13" class="mini">0 de 5 itens confirmados</div>
+</section>
+
+<section class="screen" data-n="14">
+<div class="eyebrow">13 · Seu compromisso</div><h1>Como você vai tornar a comunicação mais segura?</h1>
+<p class="lead">Escolha uma ou mais práticas para levar para o próximo turno.</p>
+<div class="roles">
+<div class="role" onclick="commit(this)"><b>Vou ser específico.</b><span>Equipamento, localização e ação.</span></div>
+<div class="role" onclick="commit(this)"><b>Vou usar comunicação em três vias.</b><span>Transmitir → repetir → confirmar.</span></div>
+<div class="role" onclick="commit(this)"><b>Vou perguntar quando não entender.</b><span>Dúvida comunicada é risco tratado.</span></div>
+<div class="role" onclick="commit(this)"><b>Vou escutar quem executa.</b><span>A experiência do campo amplia a decisão.</span></div>
+</div>
+<div class="meter"><i id="meter14"></i></div><div id="label14" class="mini">Nenhum compromisso selecionado</div>
+<div id="final" class="final" style="display:none"><h2>Comunicação segura não acontece quando alguém fala.</h2><p>Ela acontece quando todos compreendem. Ouça, confirme e aja com clareza.</p><div style="margin-top:15px"><button class="btn orange" onclick="restart()">Refazer missão ↻</button></div></div>
+</section>
+
+</main>
+<div class="nav"><button id="prev" class="btn light" onclick="prev()">← Voltar</button><span class="mini" id="nav">1 / 14</span><button id="next" class="btn primary" onclick="next()">Avançar →</button></div>
+</div>
+<script>
+let current=1,total=14;const screens=[...document.querySelectorAll('.screen')];
+function render(){screens.forEach(s=>s.classList.toggle('active',+s.dataset.n===current));document.getElementById('count').textContent=String(current).padStart(2,'0')+' / 14';document.getElementById('nav').textContent=current+' / 14';document.getElementById('progress').style.width=(current/total*100)+'%';document.getElementById('prev').disabled=current===1;document.getElementById('next').style.display=current===total?'none':'inline-block';scrollTo({top:0,behavior:'smooth'})}
+function go(n){if(n>=1&&n<=total){current=n;render()}}function next(){go(current+1)}function prev(){go(current-1)}
+function ans(el,ok,id){el.parentElement.querySelectorAll('.radio').forEach(x=>x.classList.remove('sel','good','bad'));el.classList.add(ok?'good':'bad');let f=document.getElementById(id);f.className='feedback show '+(ok?'goodbox':'warnbox');f.innerHTML=ok?'<b>Boa escolha.</b> A mensagem reduz ambiguidades e evita que o receptor precise completar a informação por conta própria.':'<b>Repare no risco.</b> A mensagem deixa espaço para interpretação. Em uma operação crítica, seja específico.'}
+let marks=0;function mark(el){if(!el.classList.contains('on')){el.classList.add('on');marks++}if(marks>=2){document.getElementById('f3').className='feedback show goodbox';document.getElementById('f3').innerHTML='<b>Boa leitura.</b> Termos vagos podem gerar interpretações diferentes. Use referências técnicas e precisas.'}}
+function phrase(el,ok){el.parentElement.querySelectorAll('.phrase').forEach(x=>x.classList.remove('good','bad'));el.classList.add(ok?'good':'bad');let f=document.getElementById('f4');f.className='feedback show '+(ok?'goodbox':'warnbox');f.innerHTML=ok?'<b>Mensagem robusta.</b> Ela informa equipamento, localização e ação esperada.':'<b>Falta precisão.</b> O receptor ainda precisa descobrir o que, onde ou quando.'}
+function factor(el){el.classList.toggle('hit');let n=document.querySelectorAll('[data-n="8"] .signal.hit').length;if(n>=2){document.getElementById('f8').className='feedback show goodbox';document.getElementById('f8').innerHTML='<b>Contexto importa.</b> Ruído, falhas de rádio, SIMOPS e pressão por rapidez podem influenciar a comunicação e o comportamento.'}}
+function check(el){el.classList.toggle('on');let n=document.querySelectorAll('#checks .check.on').length;document.getElementById('meter10').style.width=(n/4*100)+'%';document.getElementById('label10').textContent=n+' itens selecionados'}
+function role(el){el.classList.toggle('sel')}
+function signal(el){el.classList.toggle('good');document.getElementById('f12').className='feedback show goodbox'}
+function check13(el){el.classList.toggle('on');let n=document.querySelectorAll('#checks13 .check.on').length;document.getElementById('meter13').style.width=(n/5*100)+'%';document.getElementById('label13').textContent=n+' de 5 itens confirmados'}
+function commit(el){el.classList.toggle('sel');let n=document.querySelectorAll('[data-n="14"] .role.sel').length;document.getElementById('meter14').style.width=(n/4*100)+'%';document.getElementById('label14').textContent=n?(n+' compromisso'+(n>1?'s':'')+' selecionado'+(n>1?'s':'')):'Nenhum compromisso selecionado';document.getElementById('final').style.display=n?'block':'none'}
+function restart(){location.reload()}
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')next();if(e.key==='ArrowLeft')prev()});render();
+</script>
+</body>
+</html>

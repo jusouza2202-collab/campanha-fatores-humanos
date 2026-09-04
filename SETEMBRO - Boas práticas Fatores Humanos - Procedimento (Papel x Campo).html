@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#102C3D">
+<title>Papel × Campo · Missão de Campo</title>
+<style>
+:root{
+  --ink:#18313E;--ink2:#294B5A;--orange:#E56B24;--gold:#E6A83B;
+  --cream:#F5F2EA;--paper:#FFFDF8;--muted:#66757D;--line:#DCD8CD;
+  --green:#34745B;--red:#B94A3A;--blue:#3C7187;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--cream);color:#263238;
+  font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  min-height:100vh;display:flex;justify-content:center;
+}
+button{font:inherit}
+.app{width:100%;max-width:790px;padding:14px 13px 30px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+.logo{font-size:12px;font-weight:800;color:var(--ink);letter-spacing:.03em}
+.logo span{color:var(--orange)}
+.counter{font-size:11px;color:var(--muted);font-weight:700}
+.bar{height:5px;background:var(--line);border-radius:20px;margin-bottom:13px;overflow:hidden}
+.bar i{display:block;height:100%;width:10%;background:var(--orange);transition:width .35s}
+.frame{
+  background:var(--paper);border:1px solid var(--line);border-radius:20px;
+  overflow:hidden;min-height:650px;box-shadow:0 10px 35px rgba(24,49,62,.07)
+}
+.screen{display:none;padding:32px 29px 29px;animation:show .24s ease}
+.screen.active{display:block}
+@keyframes show{from{opacity:0;transform:translateX(8px)}to{opacity:1;transform:none}}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--orange);font-weight:900;margin-bottom:9px}
+h1{font-size:30px;line-height:1.12;letter-spacing:-.035em;color:var(--ink);margin:0 0 13px}
+h2{font-size:20px;color:var(--ink);margin:0 0 8px}
+p{line-height:1.55}
+.lead{font-size:14.5px;color:var(--muted);max-width:61ch;margin:0 0 21px}
+.hero{
+  border-radius:15px;background:var(--ink);color:white;padding:24px;margin:20px 0;
+  position:relative;overflow:hidden
+}
+.hero:after{
+  content:"×";position:absolute;right:18px;top:-17px;font-size:130px;
+  font-weight:900;color:rgba(255,255,255,.055)
+}
+.hero h2{color:white;font-size:24px;position:relative;z-index:1}
+.hero p{color:#D7E2E6;font-size:13.5px;margin:0;position:relative;z-index:1}
+.btn{
+  min-height:44px;padding:11px 16px;border-radius:10px;border:1px solid transparent;
+  cursor:pointer;font-weight:800;font-size:13.5px
+}
+.primary{background:var(--ink);color:white}
+.primary:hover{background:var(--orange)}
+.orange{background:var(--orange);color:white}
+.light{background:white;border-color:var(--line);color:var(--ink)}
+.nav{display:flex;align-items:center;justify-content:space-between;margin-top:12px}
+.nav .btn{min-width:110px}
+.nav .btn:disabled{opacity:.35;cursor:not-allowed}
+.mini{font-size:11px;color:var(--muted)}
+.paper{
+  border:1px solid var(--line);background:#FBFAF5;border-radius:13px;padding:17px;
+  margin:15px 0
+}
+.paper-head{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--line);padding-bottom:10px;margin-bottom:12px}
+.paper-head b{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink)}
+.paper-head span{font-size:10px;color:var(--muted)}
+.rule{font-family:Georgia,serif;font-size:15px;line-height:1.6;color:#303B40}
+.highlight{background:rgba(230,168,59,.22);padding:2px 4px;border-radius:3px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{
+  text-align:left;border:1px solid var(--line);background:white;border-radius:12px;
+  padding:14px;cursor:pointer;min-height:92px;transition:.16s
+}
+.card:hover{border-color:var(--orange)}
+.card.selected{border:2px solid var(--orange);background:rgba(229,107,36,.055)}
+.card.good{border-color:var(--green);background:rgba(52,116,91,.07)}
+.card.bad{border-color:var(--red);background:rgba(185,74,58,.06)}
+.card b{display:block;color:var(--ink);font-size:13.5px;margin-bottom:5px}
+.card span{display:block;color:var(--muted);font-size:11.8px;line-height:1.45}
+.feedback{display:none;margin-top:13px;padding:13px 15px;border-radius:10px;font-size:12.8px;line-height:1.5}
+.feedback.show{display:block}
+.goodbox{background:rgba(52,116,91,.09);border-left:3px solid var(--green)}
+.warnbox{background:rgba(185,74,58,.08);border-left:3px solid var(--red)}
+.observe{
+  border:1px solid var(--line);border-radius:14px;background:#F8F7F1;padding:14px;margin:16px 0
+}
+.observe-title{display:flex;align-items:center;gap:8px;color:var(--ink);font-weight:900;font-size:12px;margin-bottom:10px}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--orange)}
+.find{
+  display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid var(--line);cursor:pointer
+}
+.find:last-child{border-bottom:0}
+.marker{
+  flex:none;width:23px;height:23px;border-radius:50%;border:2px solid var(--line);
+  display:flex;align-items:center;justify-content:center;color:transparent;font-size:11px;font-weight:900
+}
+.find.on .marker{background:var(--orange);border-color:var(--orange);color:white}
+.find b{display:block;color:var(--ink);font-size:12.8px}
+.find small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0}
+.box{border:1px solid var(--line);border-radius:12px;padding:15px}
+.box h3{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--orange);margin:0 0 9px}
+.box p{font-size:12.5px;margin:0;color:#435158}
+.decision{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px
+}
+.decision button{
+  border:1px solid var(--line);background:white;border-radius:12px;padding:17px 12px;
+  cursor:pointer;color:var(--ink);font-weight:900
+}
+.decision button:hover{border-color:var(--orange)}
+.decision button.sel{border:2px solid var(--orange)}
+.decision .icon{font-size:22px;display:block;margin-bottom:6px}
+.timeline{position:relative;margin:18px 0}
+.step{
+  display:flex;gap:12px;padding:0 0 14px;position:relative
+}
+.step:not(:last-child):before{
+  content:"";position:absolute;left:12px;top:26px;bottom:0;width:1px;background:var(--line)
+}
+.stepnum{
+  width:25px;height:25px;border-radius:50%;background:var(--ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;flex:none;font-size:10px;font-weight:900;z-index:1
+}
+.step b{display:block;font-size:13px;color:var(--ink)}
+.step span{font-size:11.5px;color:var(--muted)}
+.role-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:15px}
+.role{
+  border:1px solid var(--line);border-radius:11px;padding:13px;background:white;
+  cursor:pointer;text-align:left
+}
+.role.sel{border:2px solid var(--orange);background:rgba(229,107,36,.05)}
+.role b{display:block;color:var(--ink);font-size:12px;margin-bottom:4px}
+.role span{font-size:10.8px;color:var(--muted);line-height:1.4}
+.result{
+  background:var(--ink);border-radius:15px;color:white;text-align:center;padding:23px;margin:17px 0
+}
+.result .big{font-size:42px;font-weight:900;color:var(--gold);line-height:1}
+.result p{font-size:12px;color:#D5E0E4;margin:7px 0 0}
+.commit-list{display:grid;gap:9px}
+.commit{
+  width:100%;text-align:left;border:1px solid var(--line);background:white;border-radius:11px;
+  padding:13px;cursor:pointer
+}
+.commit.sel{border:2px solid var(--orange);background:rgba(229,107,36,.05)}
+.commit b{display:block;color:var(--ink);font-size:12.8px}
+.commit span{font-size:11px;color:var(--muted)}
+.meter{height:7px;background:var(--line);border-radius:99px;overflow:hidden;margin:14px 0 6px}
+.meter i{display:block;width:0;height:100%;background:var(--orange);transition:.3s}
+.end{
+  border:1px solid var(--line);border-radius:13px;padding:17px;margin-top:15px;
+  background:#FAF8F2
+}
+.end b{color:var(--ink);font-size:13px}
+.end p{font-size:12px;color:var(--muted);margin:6px 0 0}
+@media(max-width:570px){
+  .app{padding:9px 8px 22px}.frame{min-height:690px;border-radius:16px}
+  .screen{padding:26px 19px 23px}h1{font-size:27px}
+  .cards,.split,.decision{grid-template-columns:1fr}
+  .role-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="header">
+    <div class="logo">FATORES HUMANOS · <span>SETEMBRO</span></div>
+    <div class="counter" id="counter">01 / 10</div>
+  </div>
+  <div class="bar"><i id="bar"></i></div>
+
+  <main class="frame">
+
+    <!-- 1 -->
+    <section class="screen active" data-n="1">
+      <div class="eyebrow">Missão de campo</div>
+      <h1>Papel × Campo</h1>
+      <p class="lead">O procedimento foi planejado. Agora precisamos descobrir se ele funciona quando encontra a realidade.</p>
+      <div class="hero">
+        <h2>Você é quem observa.</h2>
+        <p>Ao longo da missão, compare o planejado com o executado, identifique desvios e escolha respostas que fortalecem o trabalho seguro.</p>
+      </div>
+      <p class="mini">Tempo estimado: 3–5 minutos · experiência interativa para celular</p>
+      <div style="margin-top:22px"><button class="btn orange" onclick="go(2)">Entrar na missão →</button></div>
+    </section>
+
+    <!-- 2 -->
+    <section class="screen" data-n="2">
+      <div class="eyebrow">01 · O planejado</div>
+      <h1>Primeiro, leia o papel.</h1>
+      <p class="lead">Um procedimento deve orientar a execução com clareza e representar a realidade do trabalho.</p>
+      <div class="paper">
+        <div class="paper-head"><b>Procedimento · Etapa 04</b><span>Revisão vigente</span></div>
+        <div class="rule">“Posicionar-se no local definido, confirmar a identificação do equipamento e <span class="highlight">acionar o comando indicado</span>, seguindo a sequência estabelecida.”</div>
+      </div>
+      <div class="cards">
+        <button class="card" onclick="selectCard(this,'f2')"><b>Linguagem clara</b><span>A orientação deve ser compreendida por quem executa.</span></button>
+        <button class="card" onclick="selectCard(this,'f2')"><b>Risco identificado</b><span>Pontos críticos não devem ficar escondidos no texto.</span></button>
+      </div>
+      <div id="f2" class="feedback goodbox">✓ O papel é uma referência para orientar a atividade — mas ainda precisamos verificar se ele representa o trabalho real.</div>
+    </section>
+
+    <!-- 3 -->
+    <section class="screen" data-n="3">
+      <div class="eyebrow">02 · A realidade</div>
+      <h1>Agora olhe para o campo.</h1>
+      <p class="lead">Toque nos pontos que você considera importantes antes de seguir com a atividade.</p>
+      <div class="observe">
+        <div class="observe-title"><span class="dot"></span> OBSERVAÇÃO NO LOCAL</div>
+        <div class="find" onclick="findPoint(this)"><div class="marker">✓</div><div><b>O acesso está diferente do previsto.</b><small>Há pouco espaço para posicionamento.</small></div></div>
+        <div class="find" onclick="findPoint(this)"><div class="marker">✓</div><div><b>O comando indicado não está claramente identificado.</b><small>A identificação pode gerar dúvida.</small></div></div>
+        <div class="find" onclick="findPoint(this)"><div class="marker">✓</div><div><b>O procedimento é fácil de encontrar.</b><small>Disponibilidade do documento é uma condição favorável.</small></div></div>
+        <div class="find" onclick="findPoint(this)"><div class="marker">✓</div><div><b>A condição real exige uma adaptação.</b><small>O jeito previsto não parece aplicável como está.</small></div></div>
+      </div>
+      <div id="f3" class="feedback goodbox"></div>
+    </section>
+
+    <!-- 4 -->
+    <section class="screen" data-n="4">
+      <div class="eyebrow">03 · Compare</div>
+      <h1>Onde está a distância?</h1>
+      <p class="lead">Compare o que foi previsto com o que foi encontrado. Depois escolha o principal desvio.</p>
+      <div class="split">
+        <div class="box"><h3>Papel</h3><p>“Confirmar a identificação e acionar o comando indicado.”</p></div>
+        <div class="box"><h3>Campo</h3><p>“Identificação pouco clara e acesso restrito para executar a sequência prevista.”</p></div>
+      </div>
+      <div class="cards">
+        <button class="card" onclick="answer4(this,false)"><b>Falta de atenção</b><span>O principal problema está no comportamento individual.</span></button>
+        <button class="card" onclick="answer4(this,true)"><b>Condição de execução</b><span>Há uma diferença entre o que foi planejado e o cenário real.</span></button>
+      </div>
+      <div id="f4" class="feedback"></div>
+    </section>
+
+    <!-- 5 -->
+    <section class="screen" data-n="5">
+      <div class="eyebrow">04 · Antes do “jeitinho”</div>
+      <h1>Uma adaptação está acontecendo.</h1>
+      <p class="lead">A equipe encontrou uma maneira diferente de realizar a etapa porque as condições previstas não estão disponíveis.</p>
+      <div class="paper">
+        <div class="paper-head"><b>Sinal encontrado</b><span>Investigue</span></div>
+        <div class="rule">“Para concluir a atividade, o operador precisa fazer uma adaptação que não aparece no procedimento.”</div>
+      </div>
+      <p style="font-size:13px;font-weight:800;color:var(--ink)">Qual pergunta abre melhor a investigação?</p>
+      <div class="cards">
+        <button class="card" onclick="answer5(this,false)"><b>“Quem fez diferente?”</b><span>Começar pelo comportamento observado.</span></button>
+        <button class="card" onclick="answer5(this,true)"><b>“Por que foi necessário fazer diferente?”</b><span>Entender a condição que favoreceu a adaptação.</span></button>
+        <button class="card" onclick="answer5(this,false)"><b>“Como podemos proibir isso?”</b><span>Atuar somente sobre o resultado.</span></button>
+        <button class="card" onclick="answer5(this,false)"><b>“Se funciona, deixe assim.”</b><span>Normalizar sem compreender a causa.</span></button>
+      </div>
+      <div id="f5" class="feedback"></div>
+    </section>
+
+    <!-- 6 -->
+    <section class="screen" data-n="6">
+      <div class="eyebrow">05 · Decisão em campo</div>
+      <h1>Quando a melhor decisão é parar?</h1>
+      <p class="lead">Escolha uma situação abaixo. A resposta não é sobre “ser corajoso” — é sobre reconhecer quando as condições para continuar não estão controladas.</p>
+      <div class="timeline">
+        <div class="step"><div class="stepnum">A</div><div><b>O cenário real não corresponde ao planejado.</b><span>O procedimento não explica adequadamente a condição encontrada.</span></div></div>
+        <div class="step"><div class="stepnum">B</div><div><b>Existe dúvida sobre a sequência ou segurança.</b><span>A equipe não consegue confirmar como prosseguir com segurança.</span></div></div>
+        <div class="step"><div class="stepnum">C</div><div><b>Recursos críticos não estão disponíveis.</b><span>Ferramentas, EPIs ou pessoal previstos não estão disponíveis.</span></div></div>
+      </div>
+      <div class="decision">
+        <button onclick="stopDecision(this,true)"><span class="icon">■</span>PARAR<span class="mini">Interromper e buscar ajuda.</span></button>
+        <button onclick="stopDecision(this,false)"><span class="icon">▶</span>PROSSEGUIR<span class="mini">Continuar com os controles previstos.</span></button>
+      </div>
+      <div id="f6" class="feedback"></div>
+    </section>
+
+    <!-- 7 -->
+    <section class="screen" data-n="7">
+      <div class="eyebrow">06 · Escuta ativa</div>
+      <h1>Agora, escute quem executa.</h1>
+      <p class="lead">Imagine que você perguntou: “O que dificulta seguir o procedimento exatamente como está?” Toque nas respostas que merecem investigação.</p>
+      <div class="observe">
+        <div class="find" onclick="listen(this)"><div class="marker">✓</div><div><b>“Essa etapa não cabe bem no espaço que temos.”</b><small>Possível dificuldade de acesso/projeto.</small></div></div>
+        <div class="find" onclick="listen(this)"><div class="marker">✓</div><div><b>“A ferramenta prevista nem sempre está disponível.”</b><small>Possível condição de recurso/planejamento.</small></div></div>
+        <div class="find" onclick="listen(this)"><div class="marker">✓</div><div><b>“Quando o cenário muda, fazemos de outro jeito.”</b><small>Possível diferença entre procedimento e prática.</small></div></div>
+        <div class="find" onclick="listen(this)"><div class="marker">✓</div><div><b>“Não tenho nenhuma dificuldade.”</b><small>Também é uma informação: escute antes de concluir.</small></div></div>
+      </div>
+      <div id="f7" class="feedback goodbox"></div>
+    </section>
+
+    <!-- 8 -->
+    <section class="screen" data-n="8">
+      <div class="eyebrow">07 · Liderança ativa</div>
+      <h1>Quem ajuda a fechar a distância?</h1>
+      <p class="lead">O trabalho seguro não depende de uma única pessoa. Selecione o papel de cada frente.</p>
+      <div class="role-grid">
+        <button class="role" onclick="role(this)"><b>Quem executa</b><span>Relata dificuldades, dúvidas, mudanças de cenário e adaptações.</span></button>
+        <button class="role" onclick="role(this)"><b>Liderança</b><span>Escuta, está presente no campo e apoia a resolução dos problemas.</span></button>
+        <button class="role" onclick="role(this)"><b>Sistema</b><span>Procedimentos, recursos e condições devem apoiar o trabalho seguro.</span></button>
+      </div>
+      <div class="paper" style="margin-top:18px">
+        <b style="font-size:12px;color:var(--ink)">Ideia-chave</b>
+        <p style="font-size:12.5px;color:var(--muted);margin:6px 0 0">A experiência operacional é uma fonte de aprendizado. Relatos de dificuldade devem gerar melhoria — não silêncio.</p>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="screen" data-n="9">
+      <div class="eyebrow">08 · Transforme em melhoria</div>
+      <h1>Qual resposta é mais robusta?</h1>
+      <p class="lead">Você encontrou um procedimento que não acompanha totalmente a prática. O que fazer?</p>
+      <div class="cards">
+        <button class="card" onclick="answer9(this,false)"><b>Reforçar a cobrança de aderência</b><span>Pedir que a equipe siga exatamente o documento, sem investigar a diferença.</span></button>
+        <button class="card" onclick="answer9(this,false)"><b>Proibir a adaptação</b><span>Eliminar o comportamento observado sem compreender sua origem.</span></button>
+        <button class="card" onclick="answer9(this,true)"><b>Compreender, revisar e melhorar</b><span>Investigar a causa, envolver quem executa e ajustar as condições.</span></button>
+        <button class="card" onclick="answer9(this,false)"><b>Ignorar se ninguém se machucou</b><span>Esperar que um evento aconteça para agir.</span></button>
+      </div>
+      <div id="f9" class="feedback"></div>
+      <div id="result9" class="result" style="display:none">
+        <div class="big">P × C</div>
+        <p>Papel e Campo precisam conversar. O desvio encontrado é uma oportunidade para fortalecer o sistema.</p>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="screen" data-n="10">
+      <div class="eyebrow">09 · Compromisso</div>
+      <h1>O que você leva para o campo?</h1>
+      <p class="lead">Escolha uma ou mais atitudes para transformar a campanha em prática.</p>
+      <div class="commit-list">
+        <button class="commit" onclick="commit(this)"><b>Vou comparar procedimento e prática.</b><span>Observar se o documento representa o trabalho real.</span></button>
+        <button class="commit" onclick="commit(this)"><b>Vou perguntar antes de concluir.</b><span>Escutar quem executa quando encontrar uma dificuldade.</span></button>
+        <button class="commit" onclick="commit(this)"><b>Vou apoiar uma parada segura.</b><span>Reconhecer a interrupção como controle consciente do risco.</span></button>
+        <button class="commit" onclick="commit(this)"><b>Vou transformar desvios em aprendizado.</b><span>Buscar a causa e contribuir para uma melhoria sustentável.</span></button>
+      </div>
+      <div class="meter"><i id="meter"></i></div>
+      <div id="commitLabel" class="mini">Nenhum compromisso selecionado.</div>
+      <div id="final" class="end" style="display:none">
+        <b>Missão concluída.</b>
+        <p>Procedimentos orientam. O campo revela. A liderança escuta. O sistema aprende. Segurança é construída por pessoas, sistema e ambiente.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="nav">
+    <button id="prev" class="btn light" onclick="prev()">← Voltar</button>
+    <span class="mini" id="navPage">1 / 10</span>
+    <button id="next" class="btn primary" onclick="next()">Avançar →</button>
+  </div>
+</div>
+
+<script>
+let current=1;
+const total=10;
+const screens=[...document.querySelectorAll('.screen')];
+
+function render(){
+  screens.forEach(s=>s.classList.toggle('active',+s.dataset.n===current));
+  document.getElementById('counter').textContent=String(current).padStart(2,'0')+' / 10';
+  document.getElementById('navPage').textContent=current+' / 10';
+  document.getElementById('bar').style.width=(current/total*100)+'%';
+  document.getElementById('prev').disabled=current===1;
+  document.getElementById('next').style.display=current===10?'none':'inline-block';
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function go(n){if(n>=1&&n<=total){current=n;render()}}
+function next(){go(current+1)}
+function prev(){go(current-1)}
+
+function selectCard(el,id){
+  el.classList.toggle('selected');
+  document.getElementById(id).classList.add('show');
+}
+let found3=0;
+function findPoint(el){
+  if(!el.classList.contains('on')){el.classList.add('on');found3++}
+  if(found3>=2){
+    const f=document.getElementById('f3');
+    f.className='feedback show goodbox';
+    f.innerHTML='<b>Boa observação.</b> O campo trouxe informações que o papel sozinho não mostrava. Essas diferenças merecem ser compreendidas.';
+  }
+}
+function answer4(el,ok){
+  document.querySelectorAll('[data-n="4"] .card').forEach(x=>x.classList.remove('selected','good','bad'));
+  el.classList.add(ok?'good':'bad');
+  const f=document.getElementById('f4');
+  f.className='feedback show '+(ok?'goodbox':'warnbox');
+  f.innerHTML=ok
+   ?'<b>Correto.</b> O principal ponto é a condição real de execução: existe uma distância entre o planejado e o encontrado.'
+   :'<b>Repare no cenário.</b> Há uma diferença concreta entre o procedimento e as condições encontradas no campo.';
+}
+function answer5(el,ok){
+  document.querySelectorAll('[data-n="5"] .card').forEach(x=>x.classList.remove('selected','good','bad'));
+  el.classList.add(ok?'good':'bad');
+  const f=document.getElementById('f5');
+  f.className='feedback show '+(ok?'goodbox':'warnbox');
+  f.innerHTML=ok
+   ?'<b>É essa a pergunta.</b> A adaptação pode sinalizar ferramenta inadequada, planejamento, procedimento incompatível, acesso, treinamento ou mudança de cenário.'
+   :'<b>Vá além do comportamento.</b> Antes de apenas proibir ou cobrar, procure entender por que a adaptação se tornou necessária.';
+}
+function stopDecision(el,ok){
+  document.querySelectorAll('.decision button').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  const f=document.getElementById('f6');
+  f.className='feedback show '+(ok?'goodbox':'warnbox');
+  f.innerHTML=ok
+   ?'<b>Parar é controle consciente do risco.</b> Diante de cenário diferente, dúvida ou recurso crítico indisponível, a atividade deve ser interrompida e ajuda deve ser procurada.'
+   :'<b>Reavalie.</b> Se as condições previstas não estão controladas, continuar não resolve a diferença entre o papel e o campo.';
+}
+let heard=0;
+function listen(el){
+  if(!el.classList.contains('on')){el.classList.add('on');heard++}
+  if(heard>=2){
+    const f=document.getElementById('f7');
+    f.className='feedback show goodbox';
+    f.innerHTML='<b>Escuta ativa.</b> Dificuldades operacionais são informações importantes. A experiência de quem executa ajuda a compreender o contexto real.';
+  }
+}
+function role(el){el.classList.toggle('sel')}
+function answer9(el,ok){
+  document.querySelectorAll('[data-n="9"] .card').forEach(x=>x.classList.remove('selected','good','bad'));
+  el.classList.add(ok?'good':'bad');
+  const f=document.getElementById('f9');
+  f.className='feedback show '+(ok?'goodbox':'warnbox');
+  f.innerHTML=ok
+   ?'<b>Resposta robusta.</b> O objetivo é compreender a causa, envolver quem executa e melhorar as condições que favoreceram o desvio.'
+   :'<b>A solução não termina na cobrança.</b> Se o sistema favorece o desvio, apenas reforçar a regra pode manter o problema.';
+  if(ok)document.getElementById('result9').style.display='block';
+}
+function commit(el){
+  el.classList.toggle('sel');
+  const n=document.querySelectorAll('.commit.sel').length;
+  document.getElementById('meter').style.width=(n/4*100)+'%';
+  document.getElementById('commitLabel').textContent=n
+    ? n+' compromisso'+(n>1?'s':'')+' selecionado'+(n>1?'s':'')+'.'
+    :'Nenhum compromisso selecionado.';
+  document.getElementById('final').style.display=n?'block':'none';
+}
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowRight')next();
+  if(e.key==='ArrowLeft')prev();
+});
+render();
+</script>
+</body>
+</html>
